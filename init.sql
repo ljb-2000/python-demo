@@ -9,7 +9,7 @@ Create table mac(
 	name varchar(200),
 	ip varchar(200),
 	port int,
-	idc_id int,
+	idc_id varchar(200),
 	disk int,
 	msg varchar(200)
 

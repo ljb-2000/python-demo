@@ -56,16 +56,28 @@ def mac():
     if 'username' not in session:
         return redirect(url_for('login'))
     sql = 'select * from mac'
+
+    sql_idc = 'select * from idc'
+    if request.args.get('idc'):
+        sql = sql+' where idc_id = "'+request.args.get('idc')+'"'
+    print sql
+    cur.execute(sql_idc)
+    idc_data = cur.fetchall()
     cur.execute(sql)    
-    return render_template('mac.html',data=cur.fetchall())
+    return render_template('mac.html',data=cur.fetchall(),idc_data=idc_data)
 
 @app.route('/addmac')
 def addmac():
     if 'username' not in session:
         return redirect(url_for('login'))
     name = request.args.get('name')
-    msg = request.args.get('msg')
-    sql = 'insert into mac (name,msg) values ("%s","%s")' % (name,msg)
+    ip = request.args.get('ip')
+    port = request.args.get('port')
+    idc_id = request.args.get('idc_id')
+    disk = request.args.get('disk')
+    
+    sql = 'insert into mac (name,ip,port,idc_id,disk) values ("%s","%s","%s","%s","%s")' % (name,ip,port,idc_id,disk)
+    print sql
     cur.execute(sql)
     return 'ok'
 @app.route('/deletemac')
@@ -102,7 +114,13 @@ def list():
 def index():
     if 'username' not in session:
         return redirect(url_for('login'))
-    return render_template('index.html')
+    sql = 'select count(*) from idc'
+    cur.execute(sql)
+    idc_num = cur.fetchall()[0][0]
+    sql_mac = 'select count(*) from mac'
+    cur.execute(sql_mac)
+    mac_num = cur.fetchall()[0][0]
+    return render_template('index.html',idc_num=idc_num,mac_num=mac_num)
     
 
 @app.route('/delete')
