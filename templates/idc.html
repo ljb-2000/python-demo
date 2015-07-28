@@ -39,7 +39,9 @@
 <tr>
 	<td>{{d[1]}}</td>
 	<td>{{d[2]}}</td>
-	<td>{{d[1]}}</td>
+	<td>
+<span class="label label-primary hover deleteidc" data-id='{{d[0]}}'>删除</span>
+	</td>
 </tr>
 {% endfor %}
                                     </tbody>
@@ -74,7 +76,14 @@
 {% block js %}
 <script>
 	    $(document).ready(function() {
-
+	    	$(document).on('click','.deleteidc',function(){
+	    		var id = $(this).data('id')
+	    		$.get('/deleteidc?id='+id,function(res){
+	    			if (res == 'ok') {
+	    				location.reload()
+	    			};
+	    		})
+	    	})
 	    	$('#addIdcForm').on('submit',function(){
 	    		if($('#nameInput').val()&&$('#msgInput').val()){
 
@@ -125,7 +134,7 @@
     $.fn.dataTable.defaults.oLanguage=oLanguage; 
        $('#dataTables-example').DataTable({
                 responsive: true,
-                iDisplayLength:3
+                // iDisplayLength:3
         });
     });
 </script>

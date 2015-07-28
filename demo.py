@@ -4,7 +4,8 @@ app = Flask(__name__)
 con = mysql.connect(user='root',\
 					passwd='',\
 					db='winiu4',\
-					host='localhost')
+					host='localhost',
+					charset = "utf8")
 con.autocommit(True)
 cur = con.cursor()
 
@@ -23,7 +24,33 @@ def addidc():
 	sql = 'insert into idc (name,msg) values ("%s","%s")' % (name,msg)
 	cur.execute(sql)
 	return 'ok'
+@app.route('/deleteidc')
+def deleteidc():
+	delete_id = request.args.get('id')
+	sql = 'delete from idc where id = %s' % (delete_id)
+	cur.execute(sql)
+	return 'ok'
 
+
+@app.route('/mac')
+def mac():
+	sql = 'select * from mac'
+	cur.execute(sql)	
+	return render_template('mac.html',data=cur.fetchall())
+
+@app.route('/addmac')
+def addmac():
+	name = request.args.get('name')
+	msg = request.args.get('msg')
+	sql = 'insert into mac (name,msg) values ("%s","%s")' % (name,msg)
+	cur.execute(sql)
+	return 'ok'
+@app.route('/deletemac')
+def deletemac():
+	delete_id = request.args.get('id')
+	sql = 'delete from mac where id = %s' % (delete_id)
+	cur.execute(sql)
+	return 'ok'
 
 
 
