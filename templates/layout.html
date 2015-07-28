@@ -341,6 +341,14 @@ div.FixedHeader_Cloned table {
 .hover{
     cursor: pointer;
 }
+.progress-reboot{
+    position: absolute;
+    height: 2px;
+    top:0px;
+    background: #337ab7;
+    width: 0%;
+    z-index: 2000;
+}
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -352,7 +360,9 @@ div.FixedHeader_Cloned table {
 </head>
 
 <body>
-
+    <div class="progress-reboot" id='progress-reboot'>
+    
+    </div>
     <div id="wrapper">
 
         <!-- Navigation -->
@@ -589,7 +599,20 @@ div.FixedHeader_Cloned table {
             // iDisplayLength:3
     });
     });
+    var pro = 10
+    var timer = null
+    timer = setInterval(function(){
+        if (pro<100) {
 
+        pro = pro*1.5
+
+        $('#progress-reboot').css('width',pro+'%')
+        }else{
+            clearInterval(timer)
+            $('#progress-reboot').addClass('hide')
+        }
+
+    },100)
     </script>
   
            {% block js %}
