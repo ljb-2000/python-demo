@@ -20,26 +20,30 @@ def logout():
 
 @app.route('/loginaction')
 def loginaction():
-	if request.args.get('username')=='51reboot'&&request.args.get('password')=='51reboot':
+    if 'username' in session:
+        return render_template('index.html')	if request.args.get('username')=='51reboot'&&request.args.get('password')=='51reboot':
 		session['username'] = '51reboot'
 	return redirect(url_for('/'))
 # idc
 @app.route('/idc')
 def idc():
-	sql = 'select * from idc'
+    if 'username' in session:
+        return render_template('index.html')	sql = 'select * from idc'
 	cur.execute(sql)	
 	return render_template('idc.html',data=cur.fetchall())
 
 @app.route('/addidc')
 def addidc():
-	name = request.args.get('name')
+    if 'username' in session:
+        return render_template('index.html')	name = request.args.get('name')
 	msg = request.args.get('msg')
 	sql = 'insert into idc (name,msg) values ("%s","%s")' % (name,msg)
 	cur.execute(sql)
 	return 'ok'
 @app.route('/deleteidc')
 def deleteidc():
-	delete_id = request.args.get('id')
+    if 'username' in session:
+        return render_template('index.html')	delete_id = request.args.get('id')
 	sql = 'delete from idc where id = %s' % (delete_id)
 	cur.execute(sql)
 	return 'ok'
@@ -47,20 +51,23 @@ def deleteidc():
 
 @app.route('/mac')
 def mac():
-	sql = 'select * from mac'
+    if 'username' in session:
+        return render_template('index.html')	sql = 'select * from mac'
 	cur.execute(sql)	
 	return render_template('mac.html',data=cur.fetchall())
 
 @app.route('/addmac')
 def addmac():
-	name = request.args.get('name')
+    if 'username' in session:
+        return render_template('index.html')	name = request.args.get('name')
 	msg = request.args.get('msg')
 	sql = 'insert into mac (name,msg) values ("%s","%s")' % (name,msg)
 	cur.execute(sql)
 	return 'ok'
 @app.route('/deletemac')
 def deletemac():
-	delete_id = request.args.get('id')
+    if 'username' in session:
+        return render_template('index.html')	delete_id = request.args.get('id')
 	sql = 'delete from mac where id = %s' % (delete_id)
 	cur.execute(sql)
 	return 'ok'
