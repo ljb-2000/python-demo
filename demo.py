@@ -1,5 +1,5 @@
 import MySQLdb as mysql
-from flask import Flask,request,render_template
+from flask import Flask,request,render_template,session, redirect
 app = Flask(__name__)
 con = mysql.connect(user='root',\
 					passwd='',\
@@ -9,7 +9,20 @@ con = mysql.connect(user='root',\
 con.autocommit(True)
 cur = con.cursor()
 
+@app.route('/login')
+def login():
+	return render_template('login.html',data=cur.fetchall())
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    return redirect(url_for('/'))
 
+@app.route('/loginaction')
+def loginaction():
+	if request.args.get('username')=='51reboot'&&request.args.get('password')=='51reboot':
+		session['username'] = '51reboot'
+	return redirect(url_for('/'))
 # idc
 @app.route('/idc')
 def idc():
@@ -74,7 +87,10 @@ def list():
 
 @app.route('/')
 def index():
-	return render_template('index.html')
+    if 'username' in session:
+        return render_template('index.html')
+    return redirect(url_for('/login'))
+	
 
 @app.route('/delete')
 def delete():
