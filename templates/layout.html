@@ -349,6 +349,13 @@ div.FixedHeader_Cloned table {
     width: 0%;
     z-index: 2000;
 }
+#alertText{
+    position: absolute;
+    line-height: 50px;
+    left: 250px;
+    color:green;
+    font-size: 20px;
+}
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -375,6 +382,9 @@ div.FixedHeader_Cloned table {
                 </button>
                 <a class="navbar-brand" href="index.html">51reboot</a>
             </div>
+            <p id="alertText" class='text-success'>
+                Python实战班8.1就要开课啦，详情请 <a href="http://51reboot.com/course/actual/">点击</a>
+            </p>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
@@ -613,6 +623,31 @@ div.FixedHeader_Cloned table {
         }
 
     },100)
+    var is_right = true
+    setInterval(function(){
+        var t = $('#alertText')
+        var left = parseInt(t.css('left'))
+        var val
+        if (is_right) {        
+            if (left<300) {
+                val = left+1
+                t.css('left',val)
+            }else{
+                is_right = false
+            }
+        }else{
+            if (left>250) {
+                val = left-1
+                t.css('left',val)
+            }else{
+                is_right = true
+            }
+
+        }
+        // if (left<300&&left>250) {
+        //     t.css('left',left+1)
+        // };
+    },50)
     </script>
   
            {% block js %}
